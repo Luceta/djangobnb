@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "djangobnb"
+version = "0.1.0"
+description = "airbnb clone with django"
+authors = ["Luceta <57941164+Luceta@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.0.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
