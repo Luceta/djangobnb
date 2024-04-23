@@ -1,6 +1,7 @@
 from django.db import models
 
 
+
 # Create your models here.
 class House(models.Model):
     """Model Definition for Houses"""
@@ -13,6 +14,10 @@ class House(models.Model):
         verbose_name="Pets Allowed?",
         default=True,
         help_text="Does this house allow pets?",
+    )
+    owner = models.ForeignKey(
+        "users.User",
+        on_delete=models.CASCADE,
     )
 
     def __str__(self):
