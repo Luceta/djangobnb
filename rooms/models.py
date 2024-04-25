@@ -10,6 +10,10 @@ class Room(CommonModel):
         PRIVATE_ROOM = ("private_room", "Private Room")
         SHARED_ROOM = "shared_room", "Shared Room"
 
+    name = models.CharField(
+        max_length=180,
+        default="",
+    )
     country = models.CharField(
         max_length=50,
         default="한국",
@@ -35,17 +39,25 @@ class Room(CommonModel):
     owner = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
+        related_name="rooms",
     )
     amenities = models.ManyToManyField(
         "rooms.Amenity",
+        related_name="rooms",
     )
-    name = models.CharField(
-        max_length=180,
-        default="",
+    category = models.ForeignKey(
+        "categories.Category",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="rooms",
     )
 
-    def __str__(self) -> str:
-        return self.name
+    def __str__(room) -> str:
+        return room.name
+
+    def total_amenities(room):
+        return room.amenities.count()
 
 
 class Amenity(CommonModel):
@@ -57,12 +69,7 @@ class Amenity(CommonModel):
     description = models.CharField(
         max_length=150,
         null=True,
-    )
-    category = models.ForeignKey(
-        "categories.Category",
-        null=True,
         blank=True,
-        on_delete=models.SET_NULL,
     )
 
     def __str__(self) -> str:
