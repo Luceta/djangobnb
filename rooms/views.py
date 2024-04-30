@@ -11,7 +11,7 @@ from rest_framework.exceptions import (
 from .models import Amenity, Room
 from categories.models import Category
 from reviews.serializers import ReviewSerializer
-from .serializers import AmenitySerializer, RoomListSerializer, RoomDetailSerializer
+from .serializers import RoomListSerializer, RoomDetailSerializer
 from medias.serializers import PhotoSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
@@ -203,6 +203,16 @@ class RoomReviews(APIView):
             many=True,
         )
         return Response(serializer.data)
+
+    def post(self, request, pk):
+        serializer = ReviewSerializer(data=request.data)
+        if serializer.is_valid():
+            review = serializer.save(
+                user=request.user,
+                room=self.get_object(pk),
+            )
+            serializer = ReviewSerializer(review)
+            return Response(serializer.data)
 
 
 class RoomPhotos(APIView):
